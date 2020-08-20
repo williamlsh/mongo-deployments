@@ -2,6 +2,9 @@ SHELL := bash
 REPLICA_SET := rs0
 REPLICA_SET_HOST_PREFIX := replica-set_rs
 
+.PHONY: replica-set
+replica-set: up sleep replicas arbiter
+
 .PHONY: up
 up:
 	@docker-compose up -d --scale rs=3
@@ -26,3 +29,7 @@ status:
 .PHONY: arbiter
 arbiter:
 	@docker-compose exec rs mongo --eval 'rs.addArb("arbiter:27017")'
+
+.PHONY: sleep
+sleep:
+	@command sleep 1
