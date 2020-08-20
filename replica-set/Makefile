@@ -1,4 +1,6 @@
 SHELL := bash
+REPLICA_SET := rs0
+REPLICA_SET_HOST_PREFIX := replica-set_rs
 
 .PHONY: up
 up:
@@ -15,7 +17,7 @@ logs:
 .PHONY: replicas
 replicas:
 	@docker-compose exec rs mongo --eval \
-	'rs.initiate({_id : "rs0", members: [{ _id: 0, host: "replica-set_rs_1:27017" }, { _id: 1, host: "replica-set_rs_2:27017" }, { _id: 2, host: "replica-set_rs_3:27017" }]})'
+	'rs.initiate({_id : "$(REPLICA_SET)", members: [{ _id: 0, host: "$(REPLICA_SET_HOST_PREFIX)_1:27017" }, { _id: 1, host: "$(REPLICA_SET_HOST_PREFIX)_2:27017" }, { _id: 2, host: "$(REPLICA_SET_HOST_PREFIX)_3:27017" }]})'
 
 .PHONY: status
 status:
