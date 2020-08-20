@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  rs:
+    image: mongo:latest
+    command: mongod --replSet "rs0" --bind_ip_all
+
+  arbiter:
+    image: mongo:latest
+    container_name: arbiter
+    command: mongod --replSet "rs0" --bind_ip_all
