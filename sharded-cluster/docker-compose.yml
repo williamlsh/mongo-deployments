@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  cfgsvr:
+    image: mongo:latest
+    command: mongod --configsvr --replSet "${REPLICA_SET_CONFIG_REPLICA}" --bind_ip_all
+
+  shardsvr:
+    image: mongo:latest
+    command: mongod --shardsvr --replSet "${REPLICA_SET_SHARD_REPLICA}" --bind_ip_all
+
+  mongos:
+    image: mongo:latest
+    command: mongos --configdb "${REPLICA_SET_CONFIG_REPLICA}/${REPLICA_SET_CONFIG_REPLICA_HOST_PREFIX}_1:${REPLICA_SET_CONFIG_REPLICA_PORT},${REPLICA_SET_CONFIG_REPLICA_HOST_PREFIX}_2:${REPLICA_SET_CONFIG_REPLICA_PORT},${REPLICA_SET_CONFIG_REPLICA_HOST_PREFIX}_3:${REPLICA_SET_CONFIG_REPLICA_PORT}" --bind_ip_all
+    depends_on:
+      - cfgsvr
+      - shardsvr
