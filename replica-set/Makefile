@@ -1,9 +1,12 @@
+.EXPORT_ALL_VARIABLES:
+
 SHELL := bash
+
 REPLICA_SET := rs0
 REPLICA_SET_HOST_PREFIX := replica-set_rs
 
-.PHONY: replica-set
-replica-set: up sleep replicas arbiter
+.PHONY: all
+all: up sleep replicas arbiter
 
 .PHONY: up
 up:
